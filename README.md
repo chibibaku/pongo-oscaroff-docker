@@ -18,3 +18,8 @@ Set-ExecutionPolicy -Scope Process Bypass
 ```text
 .\out\oscaroff
 ```
+
+## GitHub Actions
+
+`main` へのpush、Pull Request、またはActionsの手動実行でビルドされます。
+成功したワークフローの `oscaroff` artifact から実行ファイルを取得できます。

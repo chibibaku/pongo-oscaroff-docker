@@ -1,0 +1,33 @@
+name: Build oscaroff
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build oscaroff module from Dockerfile
+        run: |
+          mkdir -p out
+          docker build \
+            --platform linux/amd64 \
+            --target artifact \
+            --output type=local,dest="$PWD/out" \
+            .
+
+      - name: Upload oscaroff artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: oscaroff
+          path: out/oscaroff
+          if-no-files-found: error
