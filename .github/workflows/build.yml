@@ -16,14 +16,16 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Build oscaroff module from Dockerfile
+      - name: Build Docker image
+        run: docker build --platform linux/amd64 -t pongo-oscaroff-builder .
+
+      - name: Build oscaroff module
         run: |
           mkdir -p out
-          docker build \
+          docker run --rm \
             --platform linux/amd64 \
-            --target artifact \
-            --output type=local,dest="$PWD/out" \
-            .
+            -v "$PWD/out:/out" \
+            pongo-oscaroff-builder
 
       - name: Upload oscaroff artifact
         uses: actions/upload-artifact@v4
